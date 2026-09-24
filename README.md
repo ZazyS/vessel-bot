@@ -92,3 +92,5 @@ just deleting the line.
 `vessel_memory.json` holds what the bot remembers people saying. If other
 people use your server, it's worth telling them the bot keeps a short memory
 of the conversation.
+
+Made by ZazyS
