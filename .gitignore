@@ -1,0 +1,6 @@
+.env
+__pycache__/
+*.pyc
+apikey.txt
+vessel_memory.json
+.venv/
