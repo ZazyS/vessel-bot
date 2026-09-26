@@ -4,3 +4,4 @@ __pycache__/
 apikey.txt
 vessel_memory.json
 .venv/
+haunt_log.txt

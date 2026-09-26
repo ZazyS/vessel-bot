@@ -6,6 +6,7 @@ channel has been quiet, it falls back to a fixed line instead of going silent.
 """
 import logging
 import random
+import os
 
 import discord
 from discord.ext import commands, tasks
@@ -13,6 +14,7 @@ from discord.ext import commands, tasks
 import config
 
 log = logging.getLogger("vessel.presence")
+HAUNT_LOG = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "haunt_log.txt")
 
 FALLBACK_LINES = [
     # The originals.
@@ -109,7 +111,10 @@ class Presence(commands.Cog):
             log.info("haunt fell back to a fixed line (%s)", exc)
             return random.choice(FALLBACK_LINES)
 
-        return line[:1900]
+        line = line[:1900]
+        with open(HAUNT_LOG, "a", encoding="utf-8") as f:
+            f.write(line.replace("\n", " ").strip() + "\n")
+        return line
 
     @tasks.loop(hours=4)
     async def haunt(self):
