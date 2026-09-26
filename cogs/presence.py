@@ -116,6 +116,13 @@ class Presence(commands.Cog):
             f.write(line.replace("\n", " ").strip() + "\n")
         return line
 
+    @commands.command(name="haunt")
+    @commands.is_owner()
+    async def haunt_now(self, ctx):
+        """Haunt right now, in this channel. Owner only, for testing."""
+        line = await self._compose_line(ctx.channel)
+        await ctx.send(line)
+
     @tasks.loop(hours=4)
     async def haunt(self):
         if not config.HAUNT_CHANNEL_ID:
