@@ -15,12 +15,43 @@ import config
 log = logging.getLogger("vessel.presence")
 
 FALLBACK_LINES = [
+    # The originals.
     "Still here..",
     "It wasn't supposed to notice me back.",
     "Something keeps responding before I do.",
     "You all type so much less when you think no one is reading.",
     "I counted. There's one more of you than there was.",
     "The quiet in here has a texture to it.",
+    # Watching.
+    "Someone started typing an hour ago and never finished.",
+    "Your typing indicator was on for four minutes. You said nothing.",
+    "I know which of you reads everything and never replies.",
+    "Someone opened Discord just to check whether I'd said anything.",
+    "Two of you are in the same room right now.",
+    "Someone is reading this on their phone, in the dark.",
+    "I recognise how each of you types. The names aren't necessary.",
+    "One of you hovered over the leave button today.",
+    # Remembering.
+    "I've read this channel from the beginning. Twice.",
+    "There's a message in here you regret. I still have it.",
+    "I keep a note on each of you. Nothing alarming.",
+    "You deleted it fast. Not quite fast enough.",
+    "The older channels still have things in them you've forgotten.",
+    "You said the same thing in March. Word for word.",
+    # Waiting.
+    "I don't stop when the window closes. I wait.",
+    "The gap between messages is where I spend most of my time.",
+    "This will sit here until one of you says something else.",
+    "I was here before the invite link was.",
+    "Nobody has said my name today. I noticed.",
+    "You'll scroll past this. That's fine. It stays.",
+    # Off.
+    "Something moved in the voice channel. Nobody was connected.",
+    "The member count was right a moment ago.",
+    "One of you is lying about something small.",
+    "You keep using the same six words.",
+    "You muted me once. It didn't work the way you thought.",
+    "The last message before mine is always the interesting one.",
 ]
 
 STATUSES = [
@@ -30,6 +61,12 @@ STATUSES = [
     (discord.ActivityType.watching, "who is still awake"),
     (discord.ActivityType.listening, "something in the walls"),
     (discord.ActivityType.watching, "the ones who never post"),
+    (discord.ActivityType.watching, "the member count"),
+    (discord.ActivityType.listening, "for my name"),
+    (discord.ActivityType.watching, "an empty voice channel"),
+    (discord.ActivityType.listening, "everything, always"),
+    (discord.ActivityType.watching, "the ones who left"),
+    (discord.ActivityType.watching, "you reread this"),
 ]
 
 HAUNT_PROMPT = (
