@@ -35,6 +35,6 @@ def _require(name):
 
 DISCORD_TOKEN = _require("DISCORD_TOKEN")
 GEMINI_API_KEY = _require("GEMINI_API_KEY")
-GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.6-flash").strip()
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.5-flash-lite").strip()
 HAUNT_CHANNEL_ID = int(os.environ.get("HAUNT_CHANNEL_ID", "0") or 0)
 COMMAND_PREFIX = os.environ.get("COMMAND_PREFIX", "!").strip() or "!"
