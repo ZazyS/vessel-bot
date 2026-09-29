@@ -223,10 +223,14 @@ class AI(commands.Cog):
     async def recent_context(self, channel, limit=15):
         """Plain-text transcript of the last few human messages."""
         messages = []
-        async for message in channel.history(limit=limit):
+        async for message in channel.history(limit=limit * 5):
             if message.author.bot or not message.content:
                 continue
+            if message.content.startswith(config.COMMAND_PREFIX):
+                continue
             messages.append(f"{message.author.display_name}: {message.content}")
+            if len(messages) >= limit:
+                break
         messages.reverse()
         return "\n".join(messages)
 
