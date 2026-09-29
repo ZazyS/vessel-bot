@@ -7,6 +7,7 @@ channel has been quiet, it falls back to a fixed line instead of going silent.
 import logging
 import random
 import os
+import csv
 
 import discord
 from discord.ext import commands, tasks
@@ -15,7 +16,7 @@ import config
 
 log = logging.getLogger("vessel.presence")
 HAUNT_LOG = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "haunt_log.txt")
-
+RATING_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "ratings", "labels.csv")
 FALLBACK_LINES = [
     # The originals.
     "Still here..",
@@ -78,6 +79,23 @@ HAUNT_PROMPT = (
     "One sentence.\n\n"
 )
 
+def great_examples(limit=5):
+    """Pick a few lines rated 'great' to show Gemini the right voice."""
+    if not os.path.exists(RATING_FILE):
+        return ""
+    with open(RATING_FILE, encoding = "utf-8", newline="") as f:
+        reader = csv.reader(f)
+        next(reader, None) # skip the header row
+        great = [row[0] for row in reader if len(row) > 1 and row[1] == "great"]
+    if not great:
+        return ""
+    picks = random.sample(great, min(limit, len(great)))
+    examples = "\n".join(f"- {line}" for line in picks)
+    return (
+        "Examples of lines in exactly the right voice:\n"
+        f"{examples}\n"
+        "Do not repeat these. Write a new one in the same spirit.\n\n"
+    )
 
 class Presence(commands.Cog):
     def __init__(self, bot):
@@ -106,7 +124,7 @@ class Presence(commands.Cog):
             return random.choice(FALLBACK_LINES)
 
         try:
-            line = await ai.ask_gemini(HAUNT_PROMPT + context, remember=False)
+            line = await ai.ask_gemini(HAUNT_PROMPT + great_examples() + context, remember=False)
         except Exception as exc:
             log.info("haunt fell back to a fixed line (%s)", exc)
             return random.choice(FALLBACK_LINES)
